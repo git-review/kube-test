@@ -1,0 +1,56 @@
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: kops/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: 2018-05-02T22:23:18Z
+  name: private.k8s.local
+spec:
+  api:
+    loadBalancer:
+      type: Internal
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://private-k8s-local-state-store/private.k8s.local
+  etcdClusters:
+  - etcdMembers:
+    - instanceGroup: master-us-west-1b
+      name: b
+    name: main
+  - etcdMembers:
+    - instanceGroup: master-us-west-1b
+      name: b
+    name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: 1.9.3
+  masterInternalName: myapi.internal.private.k8s.local
+  masterPublicName: myapi.private.k8s.local
+  networkCIDR: 10.10.0.0/16
+  networkID: vpc-03bd31ce4ee401a6d
+  networking:
+    calico: {}
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - cidr: 10.10.32.0/19
+    name: us-west-1b
+    type: Private
+    zone: us-west-1b
+  - cidr: 10.10.0.0/22
+    name: utility-us-west-1b
+    type: Utility
+    zone: us-west-1b
+  topology:
+    dns:
+      type: Public
+    masters: private
+    nodes: private
+
